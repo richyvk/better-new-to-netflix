@@ -10,7 +10,7 @@ last_scraped_title = ""
 
 with open('last_scraped_title.p', 'wb') as f:
     pickle.dump(last_scraped_title, f)
-
+    print("last scraped article check created")
 
 # Create the database
 db = Database()
