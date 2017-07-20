@@ -25,6 +25,12 @@ From a terminal run:
 ```
 python main.py
 ```
+ 
+ or, to test the scrape without writing to the database, run:
+ 
+ ```
+ python main.py --test
+ ```
 
 ## Other
 
