@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 import requests
 
 BASE_URL = 'https://www.whats-on-netflix.com/australia/'
+HEADERS = {'user-agent': 'better-new-to-netflix/1.0 (https://github.com/richyvk/better-new-to-netflix)'}
 
 
 def scrap_new_movies(url=BASE_URL, which_article=0):
@@ -13,14 +14,14 @@ def scrap_new_movies(url=BASE_URL, which_article=0):
     Returns list of {'title': title, 'year': year} dicts"""
 
     # scrap homepage for article urls
-    homepage = requests.get(url)
+    homepage = requests.get(url, headers=HEADERS)
     soup = BeautifulSoup(homepage.text, 'html.parser')
     articles = soup.find_all('h5', 'entry-title')
     selected_article = articles[which_article].contents
     selected_article_url = BASE_URL + selected_article[0]['href']
     print(f'Scraping {selected_article_url}')
     # scrap movies data from first article
-    article_page = requests.get(selected_article_url)
+    article_page = requests.get(selected_article_url, headers=HEADERS)
     article_soup = BeautifulSoup(article_page.text, 'html.parser')
     article_content = article_soup.find_all('div', 'post-content-container')
     uls = article_content[0].find_all('ul')
@@ -47,7 +48,7 @@ def scrape_article_titles(url=BASE_URL):
     """ (str) -> list of string
     Scrape article titles from url.
     """
-    homepage = requests.get(url)
+    homepage = requests.get(url, headers=HEADERS)
     soup = BeautifulSoup(homepage.text, 'html.parser')
     articles = soup.find_all('h5', 'entry-title')
     return [article.find('a').text for article in articles]
